@@ -18,4 +18,4 @@ To get the dependencies needed to run the application
 
 `node app.js Email`
 
-To run the program. `Email` is argument that will recieve the notifications. 
+To run the program. `Email` is argument for the email that will recieve the notifications. 
