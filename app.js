@@ -5,6 +5,25 @@ require('dotenv').config();
 
 const url = 'https://www.sharp.com/health-classes/volunteer-registration-grossmont-center-covid-19-vaccine-clinic-2558';
 
+if (process.argv.length !== 3) {
+	console.log('Usage: node app.js [Email]');
+	console.log('Enter the email you would like to recieve the notifications\n');
+	process.exit(1);
+}
+
+if (!validateEmail(process.argv[2])) {
+	console.log('Email entered did not follow email pattern');
+	console.log('Usage: node app.js [Email]');
+	console.log('Enter the email you would like to recieve the notifications\n');
+	process.exit(1);
+}
+
+const userEmail = process.argv[2];
+
+// Run main first then again every 5 minutes
+main();
+setInterval(main, 5 * 60000);
+
 async function main() {
 	const results = await getData();
 	const openings = checkData(results);
@@ -70,7 +89,7 @@ async function sendEmailNotification(openings) {
 
 	const mailOptions = {
 		from: process.env.EMAIL_NAME,
-		to: 'example@examplemail.com',
+		to: userEmail,
 		subject: 'There is an open class or event for Volunteer Registration: Grossmont Center COVID-19 Vaccine Clinic',
 		text: msgText
 	};
@@ -84,6 +103,7 @@ async function sendEmailNotification(openings) {
 	}
 }
 
-main();
-
-setInterval(main(), 5 * 60000);
+function validateEmail(email) {
+	const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(String(email).toLowerCase());
+}
