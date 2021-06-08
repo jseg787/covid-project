@@ -1,3 +1,5 @@
+# The link no longer lists classes
+
 # covid-project
 
 Web scraper that sends email notification if there is an opening on site https://www.sharp.com/health-classes/volunteer-registration-grossmont-center-covid-19-vaccine-clinic-2558 for volunteer classes.
